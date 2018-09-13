@@ -59,12 +59,12 @@ fi
 CHECK=$(swift-recon --md5 | grep ' error')
 echo $CHECK
 
-if echo "$CHECK" | grep -q ' 0 error'
-then
-    exit $STATE_OK
-elif echo "$CHECK" | grep -q ' 1 error'
+if echo "$CHECK" | grep -q ' 1 error'
 then
     exit $STATE_WARNING
-else
+elif echo "$CHECK" | grep -v ' 0 error' | grep -q ' error'
+then
     exit $STATE_CRITICAL
+else
+    exit $STATE_OK
 fi
